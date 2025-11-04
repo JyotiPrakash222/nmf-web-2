@@ -1,0 +1,72 @@
+a:hover {
+    text-decoration: none !important;
+}
+
+
+header .mask {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.site-description {
+    color: #000000;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.site-title {
+    font-weight: 600;
+}
+
+.entry_cats ul.post-categories li a {
+    background-color: #FF3D00;
+    color: #fff;
+}
+
+.entry_cats ul.post-categories li a:hover {
+    background-color: #010101;
+    color: #fff;
+}
+
+.the_content a {
+    color: #FF3D00;
+}
+
+.the_content a:hover {
+    color: #010101;
+}
+
+.post-display-grid .card_content .cm-post-excerpt {
+    margin-top: 15px;
+}
+.site-title,
+.site-description {
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+}
+.primarynav_search_icon {
+    display:none ;
+}
+@media (max-width: 991px) {
+    .cm_banner-five .gutter-right {
+        margin-top: 10px !important;
+        padding-left: 15px;
+    }
+}
+.cm_banner-five .gutter-right .post_thumb {
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+/*
+.cm_banner-five .gutter-left .post_thumb {
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 403px;
+}
+*/

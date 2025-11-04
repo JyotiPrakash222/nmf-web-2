@@ -1,0 +1,154 @@
+<?php
+use App\Models\ElectionResult;
+use App\Models\MahaMukabla;
+use App\Models\Candidate;
+use App\Models\Party;
+use App\Models\HomeSection;
+
+$mahamukablas = MahaMukabla::all();
+$candidates = Candidate::all();
+$parties = Party::all();
+$status = HomeSection::where('title', 'ElectionMahaSection')->value('status') ?? 0;
+?>
+
+@php
+
+    $showMaha = HomeSection::where('title', 'ElectionMahaSection')->where('status', 1)->exists();
+
+@endphp
+
+
+
+
+{{-- <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2>Election Maha Section</h2>
+
+          <form action="{{ route('toggle.maha.section') }}" method="POST">
+              @csrf
+              <button type="submit" class="btn btn-sm {{ $status ? 'btn-danger' : 'btn-success' }}">
+                  {{ $status ? 'Hide Section' : 'Show Section' }}
+              </button>
+          </form>
+      </div> --}}
+
+
+
+@if ($showMaha)
+    <section class="maha-section">
+        <div class="cm-container ">
+            <div class="maha-block">
+                <img class="maha-img" src="{{ asset('asset/images/Maha-Muqabala-Page-1.jpg') }}" alt="Mahamukabla-img">
+                <div class="mh-left">
+                    <div class="mh-inner">
+                        <div class="mh-title-box">
+                            <div class="mh-title1">महामुकाबला</div>
+                            <div class="mh-title2">महामुकाबला</div>
+                        </div>
+                        <div class="swiper mh-carousel">
+                            <div class="swiper-wrapper mh-swiper-wrapper">
+                                @foreach ($mahamukablas as $index => $slide)
+                                    <div class="swiper-slide {{ $index == 0 ? 'active' : '' }}">
+                                        <img src="{{ $slide->slide_image }}" alt="">
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="mh-button-prev mh-nav-left">&#8592;</div>
+                            <div class="mh-button-next mh-nav-right">&#8594;</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mh-right">
+                    <div class="mh-inner2">
+                        <div class="mh-title-box">
+                            <div class="mh-title3">बड़े चेहरे</div>
+                            <div class="mh-title4">बड़े चेहरे</div>
+                        </div>
+
+                        <div class="leader-box">
+                            @foreach ($candidates as $candidate)
+                                @php
+                                    $party = $parties->firstWhere('id', $candidate->party_id);
+                                @endphp
+
+                                <div class="leader-card">
+                                    <!-- Candidate Image -->
+                                    <img src="{{ $candidate->candidate_image }}"
+                                        alt="{{ $candidate->candidate_name }}" class="leader-img">
+
+                                    <!-- Candidate Info -->
+                                    <div class="leader-info">
+                                        <h3>{{ $candidate->candidate_name }}</h3>
+
+                                        @php
+                                            $status = strtolower($candidate->c_status ?? 'select_one');
+                                        @endphp
+
+                                        {{-- If status is EMPTY → show area only --}}
+                                        @if ($status === 'select_one')
+                                            <p>{{ $candidate->area }}</p>
+                                        @else
+                                            {{-- STATUS SECTION --}}
+                                            @if ($status === 'lead')
+                                                <div class="status-box lead">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                        <path d="M256 32L96 224h96v224h128V224h96L256 32z" />
+                                                    </svg>
+                                                    <span>Lead</span>
+                                                </div>
+                                            @elseif ($status === 'win')
+                                                <div class="status-box win">
+                                                    {{-- <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 512 512">
+                                                                            <path
+                                                                                d="M256 480L416 288h-96V64H192v224H96l160 192z" />
+                                                                        </svg> --}}
+                                                    <span>Win</span>
+                                                </div>
+                                            @elseif ($status === 'trail')
+                                                <div class="status-box trail">
+                                                    {{-- <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 512 512">
+                                                                            <path
+                                                                                d="M256 480L416 288h-96V64H192v224H96l160 192z" />
+                                                                        </svg> --}}
+                                                    <span>Trail</span>
+                                                </div>
+                                            @elseif ($status === 'loss')
+                                                <div class="status-box loss">
+                                                    {{-- <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 512 512">
+                                                                            <path
+                                                                                d="M256 480L416 288h-96V64H192v224H96l160 192z" />
+                                                                        </svg> --}}
+                                                    <span>Loss</span>
+                                                </div>
+                                            @elseif ($status === 'low')
+                                                <div class="status-box loss">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                        <path d="M256 480L416 288h-96V64H192v224H96l160 192z" />
+                                                    </svg>
+                                                    <span>Low</span>
+                                                </div>
+                                            @else
+                                                <div class="status-box neutral">
+                                                    <span>{{ ucfirst($candidate->c_status) }}</span>
+                                                </div>
+                                            @endif
+                                        @endif
+                                    </div>
+
+                                    <!-- Party Logo -->
+                                    <img src="{{ $party && $party->party_logo ? asset($party->party_logo) : asset('asset/images/default-party.png') }}"
+                                        alt="{{ $party->party_name ?? 'No Party Logo' }}" class="party-logo">
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+@endif
+

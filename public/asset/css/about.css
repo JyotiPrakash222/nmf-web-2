@@ -1,0 +1,137 @@
+.about-block {
+    h2 {
+        border-left: 4px solid red;
+        padding-left: 18px;
+    }
+}
+
+.about-img {
+    padding: 15px;
+    border: 1px solid #cac1c1;
+    border-radius: 10px;
+    margin-bottom: 20px;
+
+    img {
+        width: 100%;
+        height: 100%;
+        border-radius: 6px;
+    }
+}
+
+.about-content {
+    padding-bottom: 50px;
+}
+
+.about-content .abt_h:nth-child(n+2) {
+    margin-top: 15px;
+}
+
+.abt_h {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 600;
+    color: #393939;
+    margin-bottom: 10px;
+}
+
+.abt_p {
+    font-size: 16px;
+    line-height: 22px;
+    color: #808080;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+/* contact */
+.contact-wrapper {
+    background: white;
+    overflow: hidden;
+}
+
+.contact-info {
+    border-radius: 10px;
+    border: 1px solid #bcbcbc;
+    margin-bottom: 17px;
+    padding: 35px;
+    color: #2a2a2a;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+    transform: translateX(10px);
+}
+
+.contact-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+.social-links {
+    margin-top: 30px;
+}
+
+.social-icon {
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background: white;
+    color: #0062cc;
+    transform: translateY(-3px);
+}
+
+.contact-row {
+    width: 100%;
+}
+
+/* ========================== */
+/* Media Queries */
+/* For mobile phones: */
+/* ========================== */
+
+@media (max-width: 600px) {
+    .about_section {
+        padding: 0 15px;
+    }
+
+    .about-img {
+        padding: 0;
+        border: 1px solid #cac1c1;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    .about-block {
+        h2 {
+            font-size: 24px;
+            line-height: 30px;
+            margin-bottom: 12px;
+            padding-left: 10px;
+        }
+    }
+
+    /* contact */
+    .contact-info {
+        padding: 25px 20px;
+    }
+}
