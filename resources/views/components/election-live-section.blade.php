@@ -5,8 +5,8 @@ use App\Models\HomeSection;
 //  Only fetch parties marked for display in list
 $voteCounts = ElectionResult::where('show_in_list', -1)->get();
 
-//  Top 4 parties (still based on seats won)
-$topParties = ElectionResult::orderBy('seats_won', 'desc')
+//  Top 4 parties (NOW ORDERED BY SEQUENCE)
+$topParties = ElectionResult::orderBy('sequence', 'asc')
     ->where('show_in_highlight', -1)
     ->take(4)
     ->get();
@@ -77,7 +77,8 @@ $status = HomeSection::where('title', 'ElectionLiveSection')->value('status') ??
                     <div class="live-result-section">
                         @foreach ($topParties as $top)
                             @php
-                                $boxClass = $classMap[$top->party_name] ?? 'oth';
+                                // Use abbreviation for class mapping
+                                $boxClass = $classMap[$top->abbreviation] ?? 'oth';
                             @endphp
                             <div class="live-result-box {{ $boxClass }}">
                                 <span class="title">{{ $top->abbreviation }}</span>
@@ -111,7 +112,8 @@ $status = HomeSection::where('title', 'ElectionLiveSection')->value('status') ??
 
 
     @php
-        $results3 = $topParties->take(4)->map(function ($p) {
+        // Use the $topParties variable which is already ordered by sequence
+        $results3 = $topParties->map(function ($p) {
             return [
                 'party_name' => $p->party_name,
                 'abbreviation' => $p->abbreviation,
@@ -121,6 +123,7 @@ $status = HomeSection::where('title', 'ElectionLiveSection')->value('status') ??
     @endphp
 
     <script>
+        // Pass the sequenced data to JavaScript
         const results3 = @json($results3);
     </script>
     {{-- added end====== --}}
@@ -187,10 +190,12 @@ $status = HomeSection::where('title', 'ElectionLiveSection')->value('status') ??
                 const values = filteredResults.map(r => r.seats_won);
                 const colorMap = {
                     'nda': '#fd6101',
-                    'rjd': '#13B605',
+                    'rjd+': '#13B605', // Matched to your classMap logic
                     'jsp': '#FABB00',
                     'oth': '#D13A37'
                 };
+                
+                // Use abbreviation for color mapping
                 const colors = filteredResults.map(r => colorMap[r.abbreviation.toLowerCase()] || '#13B605');
                 const aspectRatio = (typeof options.aspectRatio !== 'undefined') ?
                     options.aspectRatio :
@@ -256,7 +261,7 @@ $status = HomeSection::where('title', 'ElectionLiveSection')->value('status') ??
                 return chartInstance;
             }
 
-            // Example datasets
+            // Example datasets (These are not used by semiCircleChart3 anymore)
             const results1 = [{
                     party_name: "NDA",
                     seats_won: 87
@@ -293,6 +298,7 @@ $status = HomeSection::where('title', 'ElectionLiveSection')->value('status') ??
                 }
             ];
 
+            // This now uses the correctly sequenced 'results3' from PHP
             createSemiCircleChart('semiCircleChart3', results3, {
                 duration: 500
             });
@@ -304,6 +310,8 @@ $status = HomeSection::where('title', 'ElectionLiveSection')->value('status') ??
             createSemiCircleChart('semiCircleChart2', results2, {
                 duration: 500
             });
+            
+            // This call is redundant, but harmless. Keeping it as it was in your file.
             createSemiCircleChart('semiCircleChart3', results3, {
                 duration: 500
             });
